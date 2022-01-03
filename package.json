@@ -1,0 +1,14 @@
+{
+  "name": "22nodeclub",
+  "version": "1.0.0",
+  "description": "node club 22 batch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tejas Shah",
+  "license": "ISC",
+  "dependencies": {
+    "toastr": "^2.1.4"
+  }
+}
