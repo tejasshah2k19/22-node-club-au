@@ -1,0 +1,13 @@
+npm init 
+pacakge.json
+
+npm install toastr
+
+
+
+create calc.java having add sub and mul 
+call this all functions from calc-caller.js 
+
+
+
+server - create 
