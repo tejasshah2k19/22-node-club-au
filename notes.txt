@@ -11,3 +11,22 @@ call this all functions from calc-caller.js
 
 
 server - create 
+
+
+nodemon 
+npm install nodemon 
+
+
+npm install express 
+
+express app -> listen  --> http 
+
+
+
+
+
+
+
+
+
+

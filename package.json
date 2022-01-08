@@ -9,6 +9,7 @@
   "author": "Tejas Shah",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.2",
     "toastr": "^2.1.4"
   }
 }
