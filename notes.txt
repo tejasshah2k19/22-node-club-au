@@ -22,6 +22,10 @@ npm install express
 express app -> listen  --> http 
 
 
+_id -->collection -->document --> pk ---> _id -->12 byte --->  4byte timestamp  
+                                                               3byte machineId 
+                                                               2byte processid 
+                                                               3byte documentid  [ incremented ]
 
 
 

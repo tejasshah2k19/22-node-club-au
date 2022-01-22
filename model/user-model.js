@@ -9,4 +9,7 @@ const UserModel = new Schema({
 
 })
 
-exports.UserModel = mongoose.model("user",UserModel) //users 
+ module.exports  = mongoose.model("user",UserModel) //users
+ 
+ // @   @Table() class A{  }
+ 

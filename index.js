@@ -22,8 +22,8 @@ app.use(express.json())
 
 app.post("/saveuser",userController.saveUser)
 app.post("/authenticate",userController.authenticate)
-
-
+app.get("/users",userController.getAllUsers)
+app.delete("/user/:userId",userController.deleteUser)
 
 
 app.listen(3000, function () {
