@@ -1,13 +1,14 @@
 var UserModel = require("../model/user-model")
 
 exports.saveUser = function (req, res) {
+    
 
     var u = new UserModel({
         firstName: req.body.firstName,
         email: req.body.email,
         password: req.body.password
     })
-
+ 
     u.save(function (err, success) {
         if (err) {
 
@@ -55,8 +56,71 @@ exports.deleteUser = function(req,res){
     
 }
 exports.authenticate = function (req, res) {
-    res.json({ "msg": "done", "data": req.body })
-     
+    // UserModel.findOne({email:req.body.email,password:req.body.password},function(err,data){
+    //     console.log(data);
+    // })
+    UserModel.findOne({$and:[{email:req.body.email},{password:req.body.password}]},function(err,data){
+        console.log(data);
+        if(data){
+            res.json({ "msg": "done", "data": data,stat:200 })
+        }else{
+            res.json({ "msg": "invalid credentials", "data": req.body,status:-1 })
+        }
+    })
+}
+
+exports.getUserByID = function(req,res){
+
+    UserModel.findOne({_id:req.params.userId},function(err,data){
+        if(data){
+            res.json({ "msg": "done", "data": data,stat:200 })
+        }else{
+            res.json({ "msg": "invalid userId", "data": req.params,status:-1 })
+        }
+    })
+
+}
+
+
+exports.updateUser = async function(req,res){
+
+    
+    let user = await UserModel.findOne({_id:req.body.userId})
+    console.log("user==> "+user);
+    user.firstName = req.body.firstName
+    console.log("new user==> "+user)
+    user = await user.save()
+    res.json({"Data":user})
+
+    // UserModel.findOneAndUpdate({_id:req.body.userId},req.body,function(err,data){
+    //     console.log(data);
+    //     res.json({ "msg": "done", "data": data,stat:200 })
+    // })    
+    
+
+    // UserModel.updateOne({_id:req.body.userId},req.body,function(err,data){
+    //     console.log(data);
+    //     res.json({ "msg": "done", "data": data,stat:200 })
+    // })
+
+    // UserModel.findOne({_id:req.body.userId},function(err,data){
+    //     if(data){
+    //         //console.log(data);
+    //         // var user = new UserModel({
+    //         //     _id:req.body.userId,
+    //         //     firstName:req.body.firstName
+    //         // })
+    //         // user.save
+    //         console.log(data);
+    //         data.firstName = req.body.firstName 
+    //         console.log(data);
+
+    //        data.save(function(err,data){
+    //             res.json({data:data})
+    //        })
+            
+    //     }
+    // })
 }
 
 

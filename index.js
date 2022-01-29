@@ -1,9 +1,11 @@
 //import express 
 var express = require("express") //external 
-var fs = require("fs") //internal 
-var userController = require("./controller/user-controller")
+ var fs = require("fs") //internal  
 var mongoose = require("mongoose")
+var apiRoutes = require("./api-routes")
+var updateIfCurrentPlugin = require("mongoose-update-if-current")
 
+ 
 var app = express()
 
 mongoose.connect("mongodb://localhost:27017/22aunodeclub",function(err){
@@ -14,16 +16,16 @@ mongoose.connect("mongodb://localhost:27017/22aunodeclub",function(err){
         console.log("database connected....");
     }
 })
+mongoose.plugin(updateIfCurrentPlugin, { strategy: 'timestamp' });
 
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use("/api",apiRoutes) // /api/saveuser  /api/authenticate 
 
 
-app.post("/saveuser",userController.saveUser)
-app.post("/authenticate",userController.authenticate)
-app.get("/users",userController.getAllUsers)
-app.delete("/user/:userId",userController.deleteUser)
+
+
 
 
 app.listen(3000, function () {
