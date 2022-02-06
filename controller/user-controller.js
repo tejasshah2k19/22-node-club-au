@@ -1,14 +1,15 @@
 var UserModel = require("../model/user-model")
 
 exports.saveUser = function (req, res) {
-    
+
 
     var u = new UserModel({
         firstName: req.body.firstName,
         email: req.body.email,
         password: req.body.password
     })
- 
+
+    //_id -> match update -- insert 
     u.save(function (err, success) {
         if (err) {
 
@@ -23,80 +24,87 @@ exports.saveUser = function (req, res) {
 
 }
 
-exports.getAllUsers = function(req,res){
+exports.getAllUsers = function (req, res) {
 
-     UserModel.find(function(err,data){
-            if(err){
-                res.json({data:err,status:-1,msg:"SMWR"})
-            }else{
-                res.json({data:data,status:200,msg:"user retrieved...."})
-            }
-     })
+    UserModel.find(function (err, data) {
+        if (err) {
+            res.json({ data: err, status: -1, msg: "SMWR" })
+        } else {
+            res.json({ data: data, status: 200, msg: "user retrieved...." })
+        }
+    })
 }
 
 
-exports.deleteUser = function(req,res){
-   
+exports.deleteUser = function (req, res) {
+
     // console.log(req.params);// / @PathVariable
     // console.log(req.query);// ?  @RequestParam 
 
-    UserModel.deleteOne({_id:req.params.userId},function(err,data){
-        if(err){
-            res.json({data:err,msg:"SMW",status:-1})
-        }else{
-            if(data.deletedCount == 0 ){
-                res.json({data:req.params,msg:"invalid userId ",status:200})
-            }else{
-                res.json({data:data,msg:"user removed...",status:200})
-       
+    UserModel.deleteOne({ _id: req.params.userId }, function (err, data) {
+        if (err) {
+            res.json({ data: err, msg: "SMW", status: -1 })
+        } else {
+            if (data.deletedCount == 0) {
+                res.json({ data: req.params, msg: "invalid userId ", status: 200 })
+            } else {
+                res.json({ data: data, msg: "user removed...", status: 200 })
+
             }
         }
     })
 
-    
+
 }
 exports.authenticate = function (req, res) {
     // UserModel.findOne({email:req.body.email,password:req.body.password},function(err,data){
     //     console.log(data);
     // })
-    UserModel.findOne({$and:[{email:req.body.email},{password:req.body.password}]},function(err,data){
+    UserModel.findOne({ $and: [{ email: req.body.email }, { password: req.body.password }] }, function (err, data) {
         console.log(data);
-        if(data){
-            res.json({ "msg": "done", "data": data,stat:200 })
-        }else{
-            res.json({ "msg": "invalid credentials", "data": req.body,status:-1 })
+        if (data) {
+            res.json({ "msg": "done", "data": data, stat: 200 })
+        } else {
+            res.json({ "msg": "invalid credentials", "data": req.body, status: -1 })
         }
     })
 }
 
-exports.getUserByID = function(req,res){
+exports.getUserByID = async function (req, res) {
 
-    UserModel.findOne({_id:req.params.userId},function(err,data){
-        if(data){
-            res.json({ "msg": "done", "data": data,stat:200 })
-        }else{
-            res.json({ "msg": "invalid userId", "data": req.params,status:-1 })
-        }
-    })
+    // UserModel.findOne({ _id: req.params.userId }, function (err, data) {
+    //     if (data) {
+    //         res.json({ "msg": "done", "data": data, stat: 200 })
+    //     } else {
+    //         res.json({ "msg": "invalid userId", "data": req.params, status: -1 })
+    //     }
+    // })
+    let data = await UserModel.findOne({_id:req.params.userId})// 35 second 
+    if(data){
+        res.json({msg:"invalid user id..",data:req.params.userId,status:-1})
 
+    }else{ 
+        res.json({msg:"user ret...",data:data,status:200})
+    }
 }
 
 
-exports.updateUser = async function(req,res){
+exports.updateUser = async function (req, res) {
 
-    
-    let user = await UserModel.findOne({_id:req.body.userId})
-    console.log("user==> "+user);
+
+    let user = await UserModel.findOne({ _id: req.body.userId })
+
+    console.log("user==> " + user);
     user.firstName = req.body.firstName
-    console.log("new user==> "+user)
+    console.log("new user==> " + user)
     user = await user.save()
-    res.json({"Data":user})
+    res.json({ "data": user, status: 200, msg: "user modified" })
 
     // UserModel.findOneAndUpdate({_id:req.body.userId},req.body,function(err,data){
     //     console.log(data);
     //     res.json({ "msg": "done", "data": data,stat:200 })
     // })    
-    
+
 
     // UserModel.updateOne({_id:req.body.userId},req.body,function(err,data){
     //     console.log(data);
@@ -118,7 +126,7 @@ exports.updateUser = async function(req,res){
     //        data.save(function(err,data){
     //             res.json({data:data})
     //        })
-            
+
     //     }
     // })
 }

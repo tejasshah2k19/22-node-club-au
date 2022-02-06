@@ -29,8 +29,127 @@ _id -->collection -->document --> pk ---> _id -->12 byte --->  4byte timestamp
 
 
 
+mongodb: noSql 
+        
+
+        function() 
+
+        use nodeclubau; 
+
+        
+
+            insert()
+                        db.users.insert({firstName:"ram",email:"ram@gmail.com",password:"ramp"})
+
+                        db.users.insert([
+                            {firstName:"sita",email:"sita@gmail.com",password:"sitap"},
+                            {firstName:"ravan",email:"ravan@gmail.com",password:"ravanp"}
+                        ])
+          
+            insertMany()
+
+              db.users.insertMany([
+                            {firstName:"spiderman",email:"spiderman@gmail.com",password:"spiderp"},
+                            {firstName:"batman",email:"batman@gmail.com",password:"batmanp"}
+                        ])
+            
+            insertOne()
+                         db.users.insertOne({firstName:"superman",email:"superman@gmail.com",password:"supermanp"})
 
 
+            save() [ insert / update ] update + insert 
 
+                db.users.save({firstName:"wonderwoman",email:"wonderwoman@gmail.com",password:"wondergirl"})
+
+                db.users.save({_id:ObjectId("61f52977482b9e043d12e961"),firstName:"spiderman",email:"spidy@gmail.com",password:"spidermanenew"})
+
+
+                db.users.save({_id:12345,firstName:"spiderman",email:"spidy2@gmail.com",password:"spidermanenew2"})
+
+
+        --------------------------find()--------------------------
+
+        db.users.find() //select * from users 
+        db.users.find({firstName:"ram"}) //select * from users wheren firstName = "ram" 
+        projection 
+        firstName
+        firstName,email 
+
+        db.users.find({},{firstName:1})
+         db.users.find({},{firstName:1,_id:0})
+         
+         db.users.find({},{firstName:1,_id:0,email:1})
+
+
+        --------------------------update()--------------------------
+
+        save() 
+
+        update()
+
+        db.users.save({_id:123,firstName:"x",email:"xx"})
+        
+        db.users.update({_id:123},{firstName:"y"}) // this will remove other columns and update firstname only 
+
+        db.users.update({_id:123},{ $set : { firstName:"y"}  } )
+        
+        
+        updateOne() //$set         
+        db.users.updateOne({_id:123},  { firstName:"y"}   } ) //will not work $set need to add 
+
+        db.users.updateOne({_id:123},{ $set : { firstName:"y"}  } )
+
+        updateMany() //$set 
+
+        findOneAndUpdate()
+        db.users.findAndUpdate({_id:123},{ $set : { firstName:"z"}  } ) // y
+
+        ------------------------------------------------------------------------------------------
+
+        remove 
+
+        users.db.remove({}) // truncate table users -- remove all 
+ 
+        users.db.remove({firstName:"ram"}) // all user whos name is ram will delete 
+        users.db.remove({firstName:"ram"},0) // all user whos name is ram will delete 
+
+        users.db.remove({firstName:"ram"},1) // single delete
+
+    
+        ------------------------------------------------------------------------------------------
+
+        operators 
+
+        users -> salary 25000 
+
+
+        db.users.find({ 
+             salary: {
+                $gt: 25000
+            }
+        })
+
+    $gte 
+    $lt 
+    $lte
+    $neq
+    $eq 
+
+
+    ------------------------------------------------------------------------------------------
+    limit()  skip() 
+
+
+    db.users.find().limit(10)
+
+    db.users.find().limit(10).skip(10);
+
+    db.users.find().sort({salary:1}).pretty()
+
+    db.users.find().sort({salary:-1}).pretty()
+    
+    db.users.find().sort({salary:-1,firstName:1}).pretty()
+    
+    ------------------------------------------------------------------------------------------
 
 
