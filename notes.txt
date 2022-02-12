@@ -153,3 +153,29 @@ mongodb: noSql
     ------------------------------------------------------------------------------------------
 
 
+  Employee 
+    name 
+    email
+    password 
+    role:mongoose.Schem.Types.ObjectId ,ref:role 
+
+  Role 
+    name 
+------------------------------------------------------------------------------------------
+profilepic 
+file uploading 
+
+view --> method:post , enctype:multipart/form-data 
+
+data -> key:value [ text ]
+[ text | binary ] 
+
+
+multer -> is used to upload file 
+
+
+
+
+
+
+

@@ -24,3 +24,11 @@ exports.getAllEmployee = function (req, res) {
         }
     })
 }
+
+
+//user 
+//1 
+//contact 
+//1 2 3 
+
+//user :{   contact:[ {  },{ } ]}
