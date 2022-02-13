@@ -173,9 +173,31 @@ data -> key:value [ text ]
 
 multer -> is used to upload file 
 
+-----------------------------------
+Bcrypt -> password encryption dec. 
 
+signup => user ==> password ==> enc ==> 
+login --> 
+  admin ->34o5j43kl45j4kl5jk5j4lk53l5
+  admin ->lk34j5lergds89dfglk45ljkdkk 
 
+npm install bcrypt 
+-----------------------------------
 
+cors --> 
 
+  node server -->computer --> XX 
+  outside port --> 
+  angular --> node api --> 
+  cors enable 
 
+  npm install cors 
 
+mongo atlas
+swagger doc 
+heroku 
+json ignore 
+js -> ES [ support ]
+
+email api 
+streaming 

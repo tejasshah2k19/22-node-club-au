@@ -1,12 +1,17 @@
 var UserModel = require("../model/user-model")
+const bcrypt = require('bcrypt');
+// import { bcrypt } from "bcrypt"
+
+
 
 exports.saveUser = function (req, res) {
 
+    let encPass = bcrypt.hashSync(req.body.password,10)
 
     var u = new UserModel({
         firstName: req.body.firstName,
         email: req.body.email,
-        password: req.body.password
+        password: encPass
     })
 
     //_id -> match update -- insert 
@@ -56,19 +61,48 @@ exports.deleteUser = function (req, res) {
 
 
 }
+//old plain password - authenitcation 
+// exports.authenticate = function (req, res) {
+//     // UserModel.findOne({email:req.body.email,password:req.body.password},function(err,data){
+//     //     console.log(data);
+//     // })
+
+
+//     UserModel.findOne({ $and: [{ email: req.body.email }, { password: req.body.password }] }, function (err, data) {
+//         console.log(data);
+//         if (data) {
+//             res.json({ "msg": "done", "data": data, stat: 200 })
+//         } else {
+//             res.json({ "msg": "invalid credentials", "data": req.body, status: -1 })
+//         }
+//     })
+// }
+
+
+
 exports.authenticate = function (req, res) {
     // UserModel.findOne({email:req.body.email,password:req.body.password},function(err,data){
     //     console.log(data);
     // })
-    UserModel.findOne({ $and: [{ email: req.body.email }, { password: req.body.password }] }, function (err, data) {
-        console.log(data);
+
+    
+    UserModel.findOne({  email: req.body.email }, function (err, data) {
+         isCorrect = false ; 
         if (data) {
-            res.json({ "msg": "done", "data": data, stat: 200 })
-        } else {
+             if(bcrypt.compareSync(req.body.password,data.password)){
+                isCorrect = true 
+                res.json({ "msg": "done", "data": data, stat: 200 })
+               
+            }
+ 
+        }
+        
+        if(isCorrect == false){
             res.json({ "msg": "invalid credentials", "data": req.body, status: -1 })
         }
     })
 }
+
 
 exports.getUserByID = async function (req, res) {
 
